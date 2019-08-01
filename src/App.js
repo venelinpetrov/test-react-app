@@ -1,26 +1,66 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import './dropdown.scss';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+class Dropdown extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            expanded: false,
+            value: {},
+            data: props.data,
+            selectedItem: {}
+        }
+    }
+
+    render() {
+        const dataTextField = this.props.dataTextField;
+
+        return (
+            <div className="x-dropdown">
+                <div className="x-dropdown__input" onClick={this.expandCollapse.bind(this)}>{this.state.value[dataTextField]}</div>
+                <div className={"x-dropdown__animation-container" + (this.state.expanded ? ' -expanded' : '')}>
+                    <div className="x-dropdown__data-container">
+                        <ul>
+                            {
+                                this.state.data.map(item => <li
+                                    key={item[dataTextField]}
+                                    className={item === this.state.selectedItem ? '-selected': ''}
+                                    onClick={this.handleItemClick.bind(this, item)}>
+                                        {item[dataTextField]}
+                                    </li>)
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
+    expandCollapse() {
+        this.setState({
+            expanded: !this.state.expanded
+        });
+    }
+
+    handleItemClick(value) {
+        this.setState({
+            value,
+            selectedItem: value,
+            expanded: false
+        });
+    }
 }
 
-export default App;
+function Playground() {
+    const sampleData = Array(8).fill().map((_, i) => ({text: 'item' + i}));
+    return (
+        <div className="App">
+            <Dropdown data={sampleData} dataTextField="text"/>
+        </div>
+    );
+}
+
+export default Playground;
