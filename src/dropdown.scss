@@ -5,8 +5,11 @@
     position: relative;
 
     &__input {
+        display: flex;
+        align-items: center;
         width: 200px;
         height: 40px;
+        padding: 7px;
         border: 1px solid blue;
     }
 
