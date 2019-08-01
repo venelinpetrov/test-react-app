@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 .x-dropdown {
+    display: inline-block;
     position: relative;
 
     &__input {
@@ -15,7 +16,7 @@
 
     &__animation-container {
         display: none;
-        width: 200px;
+        width: 100%;
         height: 200px;
         position: absolute;
         top: 40px;
@@ -31,6 +32,7 @@
         height: 200px;
         overflow: auto;
         border: 1px solid blue;
+        background: white;
         border-top: none;
         transform: translateY(-400px);
         transition: .3s transform;

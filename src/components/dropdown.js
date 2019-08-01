@@ -7,27 +7,27 @@ class Dropdown extends React.Component {
 
         this.state = {
             expanded: false,
-            value: {},
+            value: null,
             data: props.data,
             selectedItem: {}
         }
     }
 
     render() {
-        const dataTextField = this.props.dataTextField;
-
         return (
             <div className="x-dropdown">
-                <div className="x-dropdown__input" onClick={this.expandCollapse.bind(this)}>{this.state.value[dataTextField]}</div>
+                <div className="x-dropdown__input" onClick={this.expandCollapse.bind(this)}>
+                    {this.getValue(this.state.value)}
+                </div>
                 <div className={"x-dropdown__animation-container" + (this.state.expanded ? ' -expanded' : '')}>
                     <div className="x-dropdown__data-container">
                         <ul>
                             {
                                 this.state.data.map(item => <li
-                                    key={item[dataTextField]}
+                                    key={this.getValue(item)}
                                     className={item === this.state.selectedItem ? '-selected' : ''}
                                     onClick={this.handleItemClick.bind(this, item)}>
-                                    {item[dataTextField]}
+                                    {this.getValue(item)}
                                 </li>)
                             }
                         </ul>
@@ -35,6 +35,13 @@ class Dropdown extends React.Component {
                 </div>
             </div>
         )
+    }
+
+    getValue(field) {
+        if (this.props.valuePrimitive) {
+            return field;
+        }
+        return field && field[this.props.dataTextField];
     }
 
     expandCollapse() {
